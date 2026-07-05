@@ -15,7 +15,7 @@
   </style>
 </head>
 <body class="bg-[#c9e8ff] min-h-screen">
-  <!-- Splash Screen -->
+  <!-- Splash -->
   <div id="splash" class="splash fixed inset-0 bg-[#c9e8ff] flex flex-col items-center justify-center z-50">
     <img src="assets/Ecofin New Small trans.png" alt="Logo" class="max-h-[130px] mb-6">
     <h1 class="text-4xl font-bold mb-1 tracking-tight text-emerald-800">EcofinPay</h1>
@@ -24,7 +24,6 @@
 
   <!-- Main App -->
   <div id="app" class="hidden min-h-screen bg-[#c9e8ff]">
-    <!-- Login Screen -->
     <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
       <div class="max-w-md w-full">
         <div class="text-center mb-8">
@@ -52,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Dashboard -->
     <div id="dashboard" class="hidden min-h-screen bg-[#c9e8ff]">
       <header class="bg-white shadow border-b sticky top-0 z-10">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -90,14 +88,14 @@
 
     async function login(userId, password) {
       try {
+        const formData = new FormData();
+        formData.append('userId', userId);
+        formData.append('password', password);
+
         const res = await fetch(WEB_APP_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId, password }),
-          mode: 'cors'
+          body: formData
         });
-
-        if (!res.ok) throw new Error('Server responded with error');
 
         const data = await res.json();
 
@@ -110,7 +108,7 @@
         }
       } catch (e) {
         console.error(e);
-        alert('Login failed. Please make sure you have redeployed the Google Web App.');
+        alert('Still failing to connect. Please redeploy the Web App again and try in Incognito mode.');
       }
     }
 
@@ -119,11 +117,8 @@
       document.getElementById('user-name').textContent = user.name;
       document.getElementById('user-role').textContent = user.role + " Portal";
 
-      let content = `<div class="text-center"><h2 class="text-3xl font-bold text-emerald-800 mb-6">Welcome, ${user.name}!</h2></div>`;
-
-      if (user.role === 'Admin') content += `<p class="text-center text-lg">✅ Full System Access</p>`;
-      else if (user.role === 'Manager') content += `<p class="text-center text-lg">✅ Manager Access</p>`;
-      else content += `<p class="text-center text-lg">✅ Collector Portal</p>`;
+      let content = `<div class="text-center mb-8"><h2 class="text-3xl font-bold text-emerald-800">Welcome, ${user.name}!</h2></div>`;
+      content += `<p class="text-center text-lg">Role: <strong>${user.role}</strong></p>`;
 
       document.getElementById('role-content').innerHTML = content;
       showScreen('dashboard');
@@ -146,8 +141,9 @@
         document.getElementById('splash').style.display = 'none';
         document.getElementById('app').classList.remove('hidden');
 
-        if (localStorage.getItem('ecofinUser')) {
-          currentUser = JSON.parse(localStorage.getItem('ecofinUser'));
+        const saved = localStorage.getItem('ecofinUser');
+        if (saved) {
+          currentUser = JSON.parse(saved);
           loadDashboard();
         } else {
           showScreen('login-screen');
