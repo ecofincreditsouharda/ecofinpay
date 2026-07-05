@@ -16,7 +16,7 @@
   </style>
 </head>
 <body class="bg-[#c9e8ff] min-h-screen">
-  <!-- Splash Screen -->
+  <!-- Splash -->
   <div id="splash" class="splash fixed inset-0 bg-[#c9e8ff] flex flex-col items-center justify-center z-50">
     <img src="assets/Ecofin New Small trans.png" alt="Logo" class="logo-img mb-6">
     <h1 class="text-4xl font-bold mb-1 tracking-tight text-emerald-800">EcofinPay</h1>
@@ -49,12 +49,11 @@
             </button>
           </form>
         </div>
-
         <p class="text-center text-xs text-gray-600 mt-8">Powered by Arambh</p>
       </div>
     </div>
 
-    <!-- Dashboard Screen -->
+    <!-- Dashboard -->
     <div id="dashboard" class="hidden min-h-screen bg-[#c9e8ff]">
       <header class="bg-white shadow border-b sticky top-0 z-10">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -75,9 +74,7 @@
       </header>
 
       <main class="max-w-6xl mx-auto px-6 py-10">
-        <div id="role-content" class="bg-white rounded-3xl shadow p-10">
-          <!-- Dashboard content will load here -->
-        </div>
+        <div id="role-content" class="bg-white rounded-3xl shadow p-10 min-h-[60vh]"></div>
       </main>
     </div>
   </div>
@@ -97,9 +94,10 @@
       try {
         const res = await fetch(WEB_APP_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },   // Important for CORS
           body: JSON.stringify({ userId, password })
         });
+
         const data = await res.json();
 
         if (data.success) {
@@ -110,7 +108,8 @@
           alert(data.message || 'Invalid credentials');
         }
       } catch (e) {
-        alert('Login failed. Check internet or Google Script deployment.');
+        console.error(e);
+        alert('Login failed. Please check internet and ensure Google Script is redeployed.');
       }
     }
 
@@ -119,20 +118,11 @@
       document.getElementById('user-name').textContent = user.name;
       document.getElementById('user-role').textContent = user.role + " Portal";
 
-      let content = `
-        <div class="text-center">
-          <h2 class="text-3xl font-bold text-emerald-800 mb-4">Welcome, ${user.name}!</h2>
-          <p class="text-xl mb-8">You are logged in as <strong>${user.role}</strong></p>
-        </div>
-      `;
+      let content = `<div class="text-center mb-8"><h2 class="text-3xl font-bold text-emerald-800">Welcome, ${user.name}!</h2></div>`;
 
-      if (user.role === 'Admin') {
-        content += `<p class="text-center text-lg">Full access to everything.</p>`;
-      } else if (user.role === 'Manager') {
-        content += `<p class="text-center text-lg">Access to Collectors & Reports.</p>`;
-      } else {
-        content += `<p class="text-center text-lg">Collector Dashboard - Ready for collections.</p>`;
-      }
+      if (user.role === 'Admin') content += `<p class="text-center text-lg">Full System Access</p>`;
+      else if (user.role === 'Manager') content += `<p class="text-center text-lg">Manager Access - Collectors</p>`;
+      else content += `<p class="text-center text-lg">Collector Portal</p>`;
 
       document.getElementById('role-content').innerHTML = content;
       showScreen('dashboard');
@@ -150,7 +140,6 @@
       if (userId && password) login(userId, password);
     });
 
-    // Initialize
     window.onload = () => {
       setTimeout(() => {
         document.getElementById('splash').style.display = 'none';
