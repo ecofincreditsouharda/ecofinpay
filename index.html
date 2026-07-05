@@ -6,28 +6,27 @@
   <title>EcofinPay</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#10b981">
+  <meta name="theme-color" content="#0ea5e9">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
     body { font-family: 'Inter', sans-serif; }
     .splash { animation: fadeOut 2.8s forwards; }
     @keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
     .logo-img { max-height: 130px; object-fit: contain; }
-    .broken-logo { border: 2px dashed #f87171; padding: 20px; border-radius: 12px; }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-[#c9e8ff] min-h-screen">
   <!-- Splash Screen -->
-  <div id="splash" class="splash fixed inset-0 bg-emerald-600 flex flex-col items-center justify-center text-white z-50">
-    <img src="assets/Ecofin New Small trans.png" alt="EcofinPay Logo" class="logo-img mb-6" onerror="this.outerHTML='<div class=\'broken-logo text-white text-center\'><div class=\'text-6xl mb-2\'>🌱</div><p>Logo loading...</p></div>'">
-    <h1 class="text-4xl font-bold mb-1 tracking-tight">EcofinPay</h1>
-    <p class="text-xl tracking-widest text-emerald-100">ECOFIN CREDIT SOUHARDA</p>
+  <div id="splash" class="splash fixed inset-0 bg-[#c9e8ff] flex flex-col items-center justify-center z-50">
+    <img src="assets/Ecofin New Small trans.png" alt="EcofinPay Logo" class="logo-img mb-6" onerror="this.outerHTML='<div class=\'text-7xl mb-4\'>🌱</div>'">
+    <h1 class="text-4xl font-bold mb-1 tracking-tight text-emerald-800">EcofinPay</h1>
+    <p class="text-xl tracking-widest text-emerald-700">Empowering Aspirations Faster</p>
   </div>
 
   <!-- Main App -->
-  <div id="app" class="hidden min-h-screen">
+  <div id="app" class="hidden min-h-screen bg-[#c9e8ff]">
     <!-- Login Screen -->
-    <div id="login-screen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white p-4">
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
       <div class="max-w-md w-full">
         <div class="text-center mb-8">
           <img src="assets/Ecofin New Small trans.png" alt="EcofinPay Logo" 
@@ -35,7 +34,7 @@
                onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
           <div id="fallback-logo" class="hidden text-6xl mb-4">🌱</div>
           <h1 class="text-4xl font-bold text-emerald-800 tracking-tight">ECOFINPAY</h1>
-          <p class="text-emerald-600 mt-1 text-lg">Credit Souharda</p>
+          <p class="text-emerald-700 mt-1 text-lg">Empowering Aspirations Faster</p>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8">
@@ -57,12 +56,12 @@
           </form>
         </div>
 
-        <p class="text-center text-xs text-gray-500 mt-8">Demo Version</p>
+        <p class="text-center text-xs text-gray-600 mt-8">Powered by Arambh</p>
       </div>
     </div>
 
     <!-- Dashboard -->
-    <div id="dashboard" class="hidden min-h-screen bg-gray-50">
+    <div id="dashboard" class="hidden min-h-screen bg-[#c9e8ff]">
       <header class="bg-white shadow-sm border-b sticky top-0 z-10">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div class="flex items-center gap-3">
